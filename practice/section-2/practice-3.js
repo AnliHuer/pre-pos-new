@@ -1,15 +1,14 @@
 function map_new_collection(val){
     var VAL_COUNT_POSITION = 2;
     var summary = 1;
-    if( val.indexOf('-') > -1 || val.indexOf(':') > -1 || val.indexOf('[') > -1 ){
+    if(/[:\-[]/.test(val)){
         summary = parseInt(val.slice(VAL_COUNT_POSITION));
     }
     return {
-        name: val.charAt(0),
+        name: val[0],
         summary:summary
     }
 }
-
 
 function calculate_count(item,result){
     for(var val in result){
@@ -24,15 +23,11 @@ function calculate_count(item,result){
 
 function count_same_elements(collection) {
     var result = [];
-    var existItems = collection.map(
-            function (val) {
-            return (map_new_collection(val));
-        }
-    )
-    existItems.forEach(
-        function(item){
-           calculate_count(item,result);
-        }
-    )
+    var existItems = collection.map( function (val) {
+        return (map_new_collection(val));
+    })
+    existItems.forEach(function(item){
+       calculate_count(item,result);
+    })
     return result;
 }
